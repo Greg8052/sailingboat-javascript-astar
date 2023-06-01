@@ -12,14 +12,14 @@ $(function() {
 
     var $grid = $("#search_grid"),
         $selectWallFrequency = $("#selectWallFrequency"),
-        $selectGridSize = $("#selectGridSize"),
         $checkDebug = $("#checkDebug"),
         $searchDiagonal = $("#searchDiagonal"),
         $checkClosest = $("#checkClosest");
 
     var opts = {
         wallFrequency: $selectWallFrequency.val(),
-        gridSize: $selectGridSize.val(),
+         gridHeight: 20,
+         gridWidth: 190,
         debug: $checkDebug.is("checked"),
         diagonal: $searchDiagonal.is("checked"),
         closest: $checkClosest.is("checked")
@@ -36,10 +36,7 @@ $(function() {
         grid.initialize();
     });
 
-    $selectGridSize.change(function() {
-        grid.setOption({gridSize: $(this).val()});
-        grid.initialize();
-    });
+    
 
     $checkDebug.change(function() {
         grid.setOption({debug: $(this).is(":checked")});
@@ -70,7 +67,7 @@ var css = { start: "start", finish: "finish", wall: "wall", active: "active" };
 function GraphSearch($graph, options, implementation) {
     this.$graph = $graph;
     this.search = implementation;
-    this.opts = $.extend({wallFrequency:0.1, debug:true, gridSize:10}, options);
+    this.opts = $.extend({wallFrequency:0.1, debug:true}, options);
     this.initialize();
 }
 GraphSearch.prototype.setOption = function(opt) {
@@ -85,17 +82,17 @@ GraphSearch.prototype.initialize = function() {
 
     $graph.empty();
 
-    var cellWidth = ($graph.width()/this.opts.gridSize)-2,  // -2 for border
-        cellHeight = ($graph.height()/this.opts.gridSize)-2,
+    var cellWidth = 10,  // -2 for border
+        cellHeight = 10,
         $cellTemplate = $("<span />").addClass("grid_item").width(cellWidth).height(cellHeight),
         startSet = false;
 
-    for(var x = 0; x < this.opts.gridSize; x++) {
+    for(var x = 0; x < 20; x++) {
         var $row = $("<div class='clear' />"),
             nodeRow = [],
             gridRow = [];
 
-        for(var y = 0; y < this.opts.gridSize; y++) {
+        for(var y = 0; y<190; y++) {
             var id = "cell_"+x+"_"+y,
                 $cell = $cellTemplate.clone();
             $cell.attr("id", id).attr("x", x).attr("y", y);

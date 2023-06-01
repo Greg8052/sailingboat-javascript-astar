@@ -159,10 +159,10 @@ function Graph(gridIn, options) {
   this.nodes = [];
   this.diagonal = !!options.diagonal;
   this.grid = [];
-  for (var x = 0; x < gridIn.length; x++) {
+  for (var x = 0; x < 20; x++) {
     this.grid[x] = [];
 
-    for (var y = 0, row = gridIn[x]; y < row.length; y++) {
+    for (var y = 0, row = gridIn[x]; y < 190; y++) {
       var node = new GridNode(x, y, row[y]);
       this.grid[x][y] = node;
       this.nodes.push(node);
