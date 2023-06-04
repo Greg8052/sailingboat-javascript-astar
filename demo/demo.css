@@ -165,12 +165,49 @@ pre span.key {
 .grid_item.finish {
   background-color: #ff850c;
 }
-.grid_item.active {
+.grid_item.active, .grid_item.active.wind, .grid_item.wind.north.active, .grid_item.wind.south.active, .grid_item.wind.east.active, .grid_item.wind.west.active {
 	background-color: #49afcd;
 }
 #weightsKey {
   display: none;
 }
+.grid_item.wind.north {
+  background-color: #fffF00;
+}
+.grid_item.wind.south {
+  background-color: #77ff00;
+}
+.grid_item.wind.east {
+  background-color: #ff00a6;
+}
+.grid_item.wind.west {
+  background-color: #ff7b00;
+}
+
+p.wind.north {
+  color: #fffF00;
+}
+p.wind.south {
+  color: #77ff00;
+}
+p.wind.east {
+  color: #ff00a6;
+}
+p.wind.west {
+  color: #ff7b00;
+}
+
+.compass {
+  background-color: gray;
+  display: flex;
+}
+
+.compass > p {
+  margin: 0 3em 0 3em;
+}
+
+
+
 
 .anchor{
   width: 8px;
