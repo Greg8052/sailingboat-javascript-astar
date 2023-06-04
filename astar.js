@@ -67,6 +67,7 @@ var astar = {
 
       // End case -- result has been found, return the traced path.
       if (currentNode === end) {
+        console.log("end", pathTo(currentNode));
         return pathTo(currentNode);
       }
 
@@ -79,14 +80,15 @@ var astar = {
       for (var i = 0, il = neighbors.length; i < il; ++i) {
         var neighbor = neighbors[i];
 
-        if (neighbor.closed || neighbor.isWall()) {
+        var neighborCosts = neighbor.getCost(currentNode)
+        if (neighbor.closed || neighbor.isWall() || neighborCosts === 'isWall') {
           // Not a valid node to process, skip to next neighbor.
           continue;
         }
 
         // The g score is the shortest distance from start to current node.
         // We need to check if the path we have arrived at this neighbor is the shortest one we have seen yet.
-        var gScore = currentNode.g + neighbor.getCost(currentNode);
+        var gScore = currentNode.g + neighborCosts;
         var beenVisited = neighbor.visited;
 
         if (!beenVisited || gScore < neighbor.g) {
@@ -269,8 +271,31 @@ GridNode.prototype.getCost = function(fromNeighbor) {
   // Take diagonal weight into consideration.
   if (fromNeighbor && fromNeighbor.x != this.x && fromNeighbor.y != this.y) {
     return this.weight * 1.41421;
+    // return 1
   }
-  return this.weight;
+  //find out direction of movement
+  var direction = "";
+  if (fromNeighbor) {
+    if (fromNeighbor.x < this.x) {
+      direction += "south";
+    } else if (fromNeighbor.x > this.x) {
+      direction += "north";
+    }
+    if (fromNeighbor.y < this.y) {
+      direction += "east";
+    } else if (fromNeighbor.y > this.y) {
+      direction += "west";
+    }
+  }
+  var wind = getWinds(this.x, this.y);
+  var windDirectionFrom = wind && wind.directionFrom || "north";
+  var windSpeed=wind && wind.speed;
+  
+  if(windDirectionFrom === direction) {
+    return 'isWall';
+  }
+
+  return ((windSpeed/10)||0);
 };
 
 GridNode.prototype.isWall = function() {
