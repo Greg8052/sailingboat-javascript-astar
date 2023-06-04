@@ -52,24 +52,24 @@ hiddenObstacles = [[] // y = 1
 
 var winds = [
     //	Center: [4, 11], wind from: south, strength: 8, diameter: 8.
-    {x: [0, 12], y: [3, 20], strength: 8, direction: "south"},
+    {x: [0, 12], y: [3, 20], strength: 10, directionFrom: "south"},
     // Center: [10, 50], wind from: east, strength: 8, diameter: 8.
-    {x: [2, 18], y: [42, 58], strength: 8, direction: "east"},
+    {x: [2, 18], y: [42, 58], strength: 10, directionFrom: "east"},
     // Center: [2, 86], wind from: west, strength: 10, diameter: 10.
-    {x: [0, 12], y: [76, 96], strength: 10, direction: "west"}, 
+    {x: [0, 12], y: [76, 96], strength: 10, directionFrom: "west"}, 
     // Center: [3, 160], wind from: north, strength: 2, diameter: 8.
-    {x: [0, 11], y: [152, 168], strength: 2, direction: "north"},
+    {x: [0, 11], y: [152, 168], strength: 2, directionFrom: "north"},
     // Center: [5, 135], wind from: east, strength: 9, diameter: 8.
-    {x: [0, 13], y: [127, 143], strength: 9, direction: "east"},
+    {x: [0, 13], y: [127, 143], strength: 9, directionFrom: "east"},
     //Center: [16, 150], wind from: west, strength: 6, diameter: 8.
-    {x: [8, 20], y: [142, 158], strength: 6, direction: "west"},
+    {x: [8, 20], y: [142, 158], strength: 6, directionFrom: "west"},
     // Center: [20, 40], wind from: south, strength: 10, diameter: 4.
-    {x: [16, 20], y: [36, 44], strength: 10, direction: "south"},
+    {x: [16, 20], y: [36, 44], strength: 10, directionFrom: "south"},
     // Center: [3, 160], wind from: north, strength: 2, diameter: 8.
-    {x: [0, 11], y: [152, 168], strength: 2, direction: "north"},
+    {x: [0, 11], y: [152, 168], strength: 2, directionFrom: "north"},
 ]
 
-function setPotentialWinds({x, y}){
+function getWinds(x,y){
     for (let i = 0; i < winds.length; i++) {
         const wind = winds[i];
         if (x >= wind.x[0] && x <= wind.x[1] && y >= wind.y[0] && y <= wind.y[1]) {
@@ -188,8 +188,6 @@ GraphSearch.prototype.initialize = function () {
                 isWall = 0;
                 $cell.addClass(css.wall);
             }
-            // console.log("array: ", obstacles[x].includes(y))
-            // console.log("isWall", isWall, "x", x, "y", y)
             if (showHiddenWalls && hiddenObstacles[x].includes(y)) {
                 $cell.addClass('hiddenWall');
                 isWall = 0;
@@ -197,10 +195,9 @@ GraphSearch.prototype.initialize = function () {
 
             if (isWall === 0) {
                 nodeRow.push(WALL);
-                // $cell.addClass(css.wall);
             }
             else {
-                var cell_weight = ($("#generateWeights").prop("checked") ? (Math.floor(Math.random() * 3)) * 2 + 1 : 1);
+                var cell_weight = getWinds(x,y) ? (getWinds(x,y).strength/10) : 1;
                 nodeRow.push(cell_weight);
                 $cell.addClass('weight' + cell_weight);
                 if ($("#displayWeights").prop("checked")) {
@@ -209,6 +206,13 @@ GraphSearch.prototype.initialize = function () {
                 if (!startSet) {
                     $cell.addClass(css.start);
                     startSet = true;
+                }
+                var w = getWinds(x,y);
+
+                if(w){
+                    $cell.addClass('wind');
+                    console.log("wind: ", w);
+                    $cell.addClass(w.directionFrom);
                 }
             }
         }
