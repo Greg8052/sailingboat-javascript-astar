@@ -160,16 +160,29 @@ pre span.key {
   background-color: #ABD1FF;
 }
 .grid_item.start {
-	background-color: #FF703F;
-}
-.grid_item.active {
-	background-color: #FF703F;
+	background-color: #00ff00;
 }
 .grid_item.finish {
-
+  background-color: #ff850c;
+}
+.grid_item.active {
+	background-color: #49afcd;
 }
 #weightsKey {
   display: none;
+}
+
+.anchor{
+  width: 8px;
+  height: 8px;
+  border: solid 1px #f00;
+}
+
+.hiddenWall {
+  background-color: #afafaf;
+  border: 1px solid #004cff;
+  width: 8px;
+  height: 8px;
 }
 
 .btn {
