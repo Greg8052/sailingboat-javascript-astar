@@ -48,12 +48,13 @@ var astar = {
   search: function(graph, start, end, options) {
     graph.cleanDirty();
     options = options || {};
-    var heuristic = options.heuristic || astar.heuristics.manhattan;
+    var heuristic = options.heuristic || astar.heuristics.diagonal;
+    // var heuristic = options.heuristic || astar.heuristics.manhattan;
     var closest = options.closest || false;
 
     var openHeap = getHeap();
     var closestNode = start; // set the start node to be the closest if required
-
+    console.log("start", start);
     start.h = heuristic(start, end);
     graph.markDirty(start);
 
@@ -157,7 +158,7 @@ var astar = {
 function Graph(gridIn, options) {
   options = options || {};
   this.nodes = [];
-  this.diagonal = !!options.diagonal;
+  this.diagonal = true;
   this.grid = [];
   for (var x = 0; x < 20; x++) {
     this.grid[x] = [];
