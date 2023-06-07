@@ -54,7 +54,6 @@ var astar = {
 
     var openHeap = getHeap();
     var closestNode = start; // set the start node to be the closest if required
-    console.log("start", start);
     start.h = heuristic(start, end);
     graph.markDirty(start);
 
@@ -268,11 +267,6 @@ GridNode.prototype.toString = function() {
 };
 
 GridNode.prototype.getCost = function(fromNeighbor) {
-  // Take diagonal weight into consideration.
-  if (fromNeighbor && fromNeighbor.x != this.x && fromNeighbor.y != this.y) {
-    return this.weight * 1.41421;
-    // return 1
-  }
   //find out direction of movement
   var direction = "";
   if (fromNeighbor) {
@@ -290,12 +284,12 @@ GridNode.prototype.getCost = function(fromNeighbor) {
   var wind = getWinds(this.x, this.y);
   var windDirectionFrom = wind && wind.directionFrom || "north";
   var windSpeed=wind && wind.speed;
-  
+
   if(windDirectionFrom === direction) {
     return 'isWall';
   }
 
-  return ((windSpeed/10)||0);
+  return this.weight;
 };
 
 GridNode.prototype.isWall = function() {

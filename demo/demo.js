@@ -1,4 +1,4 @@
-/*  demo.js http://github.com/bgrins/javascript-astar
+/*  demo.js 
     MIT License
 
     Set up the demo page for the A* Search
@@ -54,7 +54,7 @@ var winds = [
     //	Center: [4, 11], wind from: south, strength: 8, diameter: 8.
     {x: [0, 12], y: [3, 20], strength: 10, directionFrom: "south"},
     // Center: [10, 50], wind from: east, strength: 8, diameter: 8.
-    {x: [2, 18], y: [42, 58], strength: 10, directionFrom: "east"},
+    {x: [2, 18], y: [42, 58], strength: 1, directionFrom: "east"},
     // Center: [2, 86], wind from: west, strength: 10, diameter: 10.
     {x: [0, 12], y: [76, 96], strength: 10, directionFrom: "west"}, 
     // Center: [3, 160], wind from: north, strength: 2, diameter: 8.
@@ -173,7 +173,6 @@ GraphSearch.prototype.initialize = function () {
             var id = "cell_" + x + "_" + y,
             $cell = $cellTemplate.clone();
             $cell.attr("id", id).attr("x", x).attr("y", y);
-            $cell.onclick = function (cell) { console.log("values: ", cell.x, cell.y) }
             $row.append($cell);
             gridRow.push($cell);
 
@@ -197,7 +196,7 @@ GraphSearch.prototype.initialize = function () {
                 nodeRow.push(WALL);
             }
             else {
-                var cell_weight = getWinds(x,y) ? (getWinds(x,y).strength/10) : 1;
+                var cell_weight = getWinds(x,y) ? (getWinds(x,y).strength) : 5;
                 nodeRow.push(cell_weight);
                 $cell.addClass('weight' + cell_weight);
                 if ($("#displayWeights").prop("checked")) {
@@ -211,7 +210,6 @@ GraphSearch.prototype.initialize = function () {
 
                 if(w){
                     $cell.addClass('wind');
-                    console.log("wind: ", w);
                     $cell.addClass(w.directionFrom);
                 }
             }
